@@ -1,8 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Open+Sans');
 
-body h1 {
+body, html {
+    
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    
+}
+
+header.home {
+    
+    width: 100%;
+    height: 50vh;
+    background-color: #16d5f2;
+    
+}
+
+header h1 {
     
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+/*    top: 50%;*/
+/*    transform: translateY(-50%);*/
+    position: absolute;
     
 }
