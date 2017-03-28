@@ -1,0 +1,8 @@
+## TODO
+
+  - Investigar sobre AppFramework o alternativas
+  - Idear la estructura de la aplicación
+  - Idear el diseño y hacer el sketch
+  - Averiguar el ERROR por el cual no se carga el contenido con AppFramework
+
+  - etc..

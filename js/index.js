@@ -3,9 +3,16 @@
 
 $(document).ready(function() {
     
-   $.feed.cargaNoticia("http://www.ideal.es/jaen/rss/2.0/portada", "#caja1", "rss");
+    $.feed.cargaNoticia("http://www.ideal.es/jaen/rss/2.0/portada", "#caja1", "rss");
+    //$("#pagina1").hide();
     
 });
+
+function mostrarContenido() {
+        
+    $.afui.loadContent("#pagina1", false, false, "up");
+    
+}
 
 $.feed = {};
 

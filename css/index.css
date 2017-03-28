@@ -1,28 +1,81 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Open+Sans|Slabo+27px');
 
 body, html {
-    
     width: 100%;
     height: 100%;
     margin: 0px;
     
 }
 
-header.home {
-    
+div.homeview {
     width: 100%;
-    height: 50vh;
-    background-color: #16d5f2;
+    position: relative;
+    box-shadow: 0px 2px 3px grey;
     
 }
 
-header h1 {
+header.homeheader {
+    width: 100%;
+    height: 350px;
+    background-color: #009688;
     
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    color: white;
-/*    top: 50%;*/
-/*    transform: translateY(-50%);*/
+}
+
+.titlepage {
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
     position: absolute;
     
+}
+
+.tittle {
+    font-family: 'Slabo 27px', sans-serif;
+    font-weight: lighter;
+    position: relative;
+    text-align: center;
+    margin: 0 0 0;
+    color: white;
+    font-size: 350%;
+    
+}
+
+.subtitle {
+    font-family: 'Slabo 27px', sans-serif;
+    color: white;
+    font-style: italic;
+    margin-left: 50%;
+    
+}
+
+.flex-icons {
+    display: flex;
+    
+}
+
+/*TODO
+
+ - MEJORAR EL FLEX Y VER VIDEO DEVTIPS
+ - ORGANIZAR BOTONES
+ - PREPARAR VISUAL PARA LAS DEMÁS PÁGINAS
+ - CREAR TRANSICIONES ENTRE PÁGINAS CON JQUERY
+ - IMPORTAR CARACTERÍSTICAS DEL JS PARA LAS NOTICIAS
+ - PREPARAR CONEXIÓN CON BASE DE DATOS FIREBASE
+ - IDEAR PÁGINAS DE LOGIN Y SINGIN PARA LAS CUENTAS
+ - PREPARA API DE AUTENTIFICACIÓN DE GOOGLE
+ - HACER TODO RESPONSIVO
+ - PASAR PROYECTO A CORDOVA PARA ANDROID E IOS*/
+
+.icon-list {
+    
+    background-color: red;
+    width: 20%;
+    height: 35%;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    
+}
+
+.fa-list {
+    font-size: 500%;
 }
