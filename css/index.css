@@ -22,6 +22,7 @@ header.homeheader {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    z-index: 1000;
     
 }
 
@@ -79,8 +80,34 @@ header.homeheader {
     flex-wrap: wrap;
     padding-top: 70px;
     padding-bottom: 15px;
-
+    
 }
+
+.flex-icons-trigger {
+    transform: translateX(-100%);
+    transition: transform 600ms ease-in-out;
+    
+}
+
+.listpage {
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    float: left;
+    display: none;
+    
+}
+
+.listpage-slideup {
+    transition: height 300ms ease-in-out;
+    
+}
+
+/*@keyframes moveToLeft {
+    from {}
+    to {transform: translateX(-100%);}
+}*/
 
 .element {
     background-color: #E0E0E0;
@@ -182,6 +209,7 @@ header.homeheader {
     display: flex;
     justify-content: center;
     flex-direction: row;
+    flex-wrap: nowrap;
     
 }
 
@@ -208,6 +236,11 @@ header.homeheader {
     font-size: 11px;
     text-align: center;
     color: #212121;
+    
+}
+
+.article {
+    display: none;
     
 }
 

@@ -4,7 +4,18 @@
 $(document).ready(function() {
     
     $.feed.cargaNoticia("http://www.ideal.es/jaen/rss/2.0/portada", "#caja1", "rss");
-    //$("#pagina1").hide();
+    
+    $(".list").click(function() {
+        $(".flex-icons").slideUp();
+            
+            setTimeout(function() {
+            
+            $(".listpage").fadeIn();
+            
+            }, 300)
+        
+        // TODO - ESTILAR DIV DE LISTA DE RSS (NOMBRE-FUENTE, TIPO, AÑADIDA/ACTUALIZADA(FECHA))...
+    });
     
 });
 
