@@ -12,12 +12,38 @@
         <script src="js/index.js" type="text/javascript"></script>
         <script src="https://use.fontawesome.com/fabec1b65f.js"></script>
         
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="css/index.css">
     
     </head>
     
     <body>
     
+        <div class="addsource">
+            
+            <div class="formbox">
+            
+                <h1 class="formtitle">Añadir fuente:</h1>
+                <input class="sourcelink" type="text" placeholder="Enlace de la fuente">
+                
+                <div class="selector-container">
+                    <div class="rss">RSS</div>
+                    <div class="atom">ATOM</div>
+                </div>
+                
+                TODO
+                
+                - TERMINAR EL POPUP
+                - ESTABLECER ANIMACIONES DE APARICIÓN
+                - ESTABLECER ANIMACIONES PARA EL FONDO DE LOS BOTONES
+                - ESTABLECER MEDIANTE JQUERY QUE APAREZCAN COMO SELECCIONADOS
+                - ESTABLECER VALUES PARA REGISTRAR LA OPCIÓN
+                - EVITAR EL NODO DE TEXTO QUE SEPARA LOS DIVS
+            
+            </div>
+            
+        </div>
+        
         <div class="homeview">
         
             <header class="homeheader">
@@ -26,7 +52,7 @@
             
             <div class="titlepage">
                     
-                <h1 class="tittle">rss_Manager</h1>
+                <h1 class="title">rss_Manager</h1>
                 <span class="subtitle">- A modern RSS Feeder</span>
                     
             </div>
@@ -60,7 +86,46 @@
         </div>
         
         <div class="listpage">
-            <h1>Esto es la lista</h1>
+            
+            <header class="listheader">
+                <i class="material-icons backarrow" aria-hidden="true">arrow_back</i>
+                <h1 class="listheader-title">Lista de Fuentes</h1>
+            </header>
+            
+            <div class="list-container">
+            
+                <table class="table-list">
+                    <th>Fuente</th>
+                    <th>Tipo</th>
+                    <th>Añadido en</th>
+                    
+                    <tr>
+                    
+                        <td>El Ideal Jaén</td>
+                        <td>RSS</td>
+                        <td>01/01/2016</td>
+                    
+                    </tr>
+                    
+                    <tr>
+                    
+                        <td>El Ideal Jaén</td>
+                        <td>RSS</td>
+                        <td>01/01/2016</td>
+                    
+                    </tr>
+                    
+                    <tr>
+                    
+                        <td>El Ideal Jaén</td>
+                        <td>RSS</td>
+                        <td>01/01/2016</td>
+                    
+                    </tr>
+                </table>
+            
+            </div>
+            
         </div>
             
     </body>
