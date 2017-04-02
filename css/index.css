@@ -18,7 +18,7 @@ header.homeheader {
     width: 100%;
     height: 350px;
 /*    background-color: #009688;*/
-    background-image: url(../homeheader_img.jpg);
+    background-image: url(../img/homeheader_img.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -240,7 +240,6 @@ header.homeheader {
 }
 
 @keyframes listheaderslide {
-    
     from {height: 0px;}
     to{height: 50px;}
     
@@ -301,12 +300,7 @@ header.homeheader {
 }
 
 .table-list tr:not(:first-child) {cursor: pointer;}
-
-.table-list th {
-    background-color: #80CBC4;
-    
-}
-
+.table-list th {background-color: #80CBC4;}
 .table-list th:first-child {border-top-left-radius: 3px;}
 .table-list th:nth-child(3) {border-top-right-radius: 3px;}
 
@@ -315,6 +309,8 @@ header.homeheader {
     transition: background-color 150ms ease-in-out;
     
 }
+
+/*ADD SOURCE POPUP*/
 
 .addsource {
     background-color: rgba(255,255,255,.40);
@@ -327,7 +323,7 @@ header.homeheader {
 .formbox {
     width: 50%; /*500px*/
     min-width: 300px;
-    height: 200px;
+    height: 155px;
     background-color: white;
     position: absolute;
     top: 50%;
@@ -343,11 +339,30 @@ header.homeheader {
     font-size: 24px;
     font-weight: 100;
     padding-left: 22px;
+    display: inline-block;
+    
+}
+
+.formbox-quit {
+    position: absolute;
+    right: 0;
+    margin-right: 12px;
+    margin-top: 9px;
+    font-size: 20px;
+    font-weight: 100;
+    cursor: pointer;
+    
+}
+
+.sourcelink-container {
+    margin-right: 22px;
+    margin-left: 22px;
+    
 }
 
 .sourcelink {
-    margin-left: 22px;
-    width: 87%;
+    min-width: 200px;
+    width: 100%; /*93.5%*/
     height: 30px;
     border: 1px solid #009688;
     border-radius: 2px;
@@ -359,18 +374,207 @@ header.homeheader {
 }
 
 .selector-container {
-    position: absolute;
+    position: relative;
     margin-left: 22px;
+    margin-right: 22px;
     margin-top: 11px;
-
+    display: flex;
+    flex-direction: row;
+    
 }
 
-.rss, .atom {
-    display: inline;
+.rss {
     background-color: #eeeeee;
-    border: 1px solid #03a9f4;
     padding: 4px 6px 4px 6px;
     font-family: 'Roboto', sans-serif;
+    border-top: 1px solid #03a9f4;
+    border-bottom: 1px solid #03a9f4;
+    border-left: 1px solid #03a9f4;
+    border-right: 1px solid #03a9f4;
+    width: 55px;
+    text-align: center;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    
+}
+
+.rss:hover {
+    background-color: #90caf9;
+    color: white;
+    font-weight: bold;
+    transition: background-color 150ms ease-in-out;
+    cursor: pointer;
+}
+
+.atom {
+    background-color: #eeeeee;
+    padding: 4px 6px 4px 6px;
+    font-family: 'Roboto', sans-serif;
+    border-top: 1px solid #03a9f4;
+    border-bottom: 1px solid #03a9f4;
+    border-right: 1px solid #03a9f4;
+    width: 55px;
+    text-align: center;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    
+}
+
+.atom:hover {
+    background-color: #90caf9;
+    color: white;
+    font-weight: bold;
+    transition: background-color 150ms ease-in-out;
+    cursor: pointer;
+}
+
+.rss-clicked {
+    background-color: #0097a7;
+    color: white;
+    font-weight: bold;
+    padding: 4px 6px 4px 6px;
+    font-family: 'Roboto', sans-serif;
+    border-top: 1px solid #03a9f4;
+    border-bottom: 1px solid #03a9f4;
+    border-left: 1px solid #03a9f4;
+    border-right: 1px solid #03a9f4;
+    width: 55px;
+    text-align: center;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+    cursor: not-allowed;
+    
+}
+
+.atom-clicked {
+    background-color: #0097a7;
+    color: white;
+    font-weight: bold;
+    padding: 4px 6px 4px 6px;
+    font-family: 'Roboto', sans-serif;
+    border-top: 1px solid #03a9f4;
+    border-bottom: 1px solid #03a9f4;
+    border-left: 1px solid #03a9f4;
+    border-right: 1px solid #03a9f4;
+    width: 55px;
+    text-align: center;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    transition: background-color 150ms ease-in-out, color 150ms ease-in-out;
+    cursor: not-allowed;
+    
+}
+
+.submit-button {
+    font-family: 'Roboto', sans-serif;
+    background-color: #00897b;
+    position: absolute;
+    right: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.50);
+    
+}
+
+.submit-button:hover {
+    background-color: #009688;
+    box-shadow: 0 7px 13px rgba(0,0,0,.50);
+    transition: background-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+    
+}
+
+.fa-check-circle-o {padding-left: 5px;}
+.fa-check-circle {padding-left: 5px;}
+
+/*DELETE SOURCE*/
+
+.listpage-delete {
+    width: 100%;
+    
+}
+
+.listpage-delete-slideup {
+    transition: height 300ms ease-in-out;
+    
+}
+
+.listheader-delete {
+    height: 0px; /*150px*/
+    background-color: #009688;
+    box-shadow: 0 2px 13px rgba(0,0,0,.50);
+    position: relative;
+    
+}
+
+@keyframes listheaderslide {
+    from {height: 0px;}
+    to{height: 50px;}
+    
+}
+
+.listheader-delete-title {
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    margin-top: 0;
+    padding-left: 15px;
+    display: inline;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+}
+
+.backarrow-delete {
+    font-size: 22px;
+    padding-left: 7px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    
+}
+
+.list-delete-container {
+/*    height: 400px;*/
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+    
+}
+
+.table-delete-list {
+    border-collapse: collapse;    
+    margin-top: 18px;
+    font-family: 'Roboto', sans-serif;
+    width: 65vw;
+    min-width: 320px;
+    overflow-x: auto;
+    
+}
+
+.table-delete-list th, tr, td {
+    border-bottom: 1px solid rgba(0, 150, 136, .35);
+    padding: 7px 7px 7px 15px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table-delete-list tr:not(:first-child) {cursor: pointer;}
+.table-delete-list th {background-color: #80CBC4;}
+.table-delete-list th:first-child {border-top-left-radius: 3px;}
+
+.table-delete-list tr:hover {
+    background-color: #E0F2F1;
+    transition: background-color 150ms ease-in-out;
     
 }
 
