@@ -10,7 +10,7 @@
         
         <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
-    
+        
         <script src="js/jquery-3.1.1.js" type="text/javascript"></script>
         <script src="js/index.js" type="text/javascript"></script>
         <script src="js/animations.js" type="text/javascript"></script>
@@ -19,7 +19,7 @@
         
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="css/index.css">
-    
+        
     </head>
     
     <body>
@@ -30,11 +30,12 @@
             
                 <h1 class="formtitle">Añadir fuente:</h1>
                 <i class="material-icons formbox-quit">clear</i>
+                <div class="sourcelink-container"><input class="sourcename" type="text" placeholder="Nombre de la fuente"></div>
                 <div class="sourcelink-container"><input class="sourcelink" type="text" placeholder="Enlace de la fuente"></div>
                 
                 <div class="selector-container">
-                    <div class="rss">RSS</div>
-                    <div class="atom">ATOM</div>
+                    <div class="rss-selector rss">RSS</div>
+                    <div class="atom-selector atom">ATOM</div>
                     <div class="submit-button">Aceptar<i class="fa fa-check-circle-o" aria-hidden="true"></i></div>
                 </div>
                 
@@ -56,7 +57,35 @@
                 <li>La contraseña debe tener entre 5 y 10 caracteres.</li>
                 <li>Las contraseñas no coinciden.</li>
                 
-                
+            </ul>
+            
+        </div>
+        
+        <div class="addsource-error-ntf">
+        
+            <h3 class="error-title">Error añadir fuente</h3>
+            
+            <p>Los campos no pueden estar vacíos.</p>
+            
+        </div>
+        
+        <div class="auth-error-ntf">
+        
+            <h3 class="error-title">Error inicio sesión</h3>
+            
+            <p>Usuario/Contraseña incorrectos.</p>
+            
+        </div>
+        
+        <div class="login-error-ntf">
+        
+            <h3 class="error-title">Posibles errores</h3>
+            
+            <ul class="common-errors">
+            
+                <li>El correo electrónico no está bien escrito.</li>
+                <li>La contraseña debe tener entre 5 y 10 caracteres.</li>
+
             </ul>
             
         </div>
@@ -72,7 +101,7 @@
                 <div class="input-container"><input type="text" class="user-input" placeholder="example@somedomain.com"></div>
                 
                 <h5 class="password-label">Contraseña</h5>
-                <div class="input-container"><input type="password" class="password-input"></div>
+                <div class="input-container"><input type="password" id="password-input"></div>
                 
                 <div class="connect-button">Conectar</div>
 
@@ -166,30 +195,6 @@
                     <th>Fuente</th>
                     <th>Tipo</th>
                     <th>Añadido en</th>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                    
-                    </tr>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                    
-                    </tr>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                    
-                    </tr>
                 </table>
             
             </div>
@@ -210,37 +215,11 @@
                     <th>Tipo</th>
                     <th>Añadido en</th>
                     <th>Borrar</th>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                        <td><input type="checkbox" value="selected"></td>
-                    
-                    </tr>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                        <td><input type="checkbox" value="selected"></td>
-                    
-                    </tr>
-                    
-                    <tr>
-                    
-                        <td>El Ideal Jaén</td>
-                        <td>RSS</td>
-                        <td>01/01/2016</td>
-                        <td><input type="checkbox" value="selected"></td>
-                    
-                    </tr>
                 </table>
-            
+                
+                <div class="delete-button">Borrar</div>
+                
             </div>
-            
         </div>
             
     </body>

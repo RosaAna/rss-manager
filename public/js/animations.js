@@ -32,6 +32,11 @@ $(document).ready(function() {
     $(".login-form").hide();
     $(".register-form").hide();
     $(".error-ntf").hide();
+    $(".login-error-ntf").hide();
+    $(".btn-container").hide();
+    $(".logout-button").hide();
+    $(".auth-error-ntf").hide();
+    $(".addsource-error-ntf").hide();
     
     // Acción que se realiza para animar los elementos cuando hacemos clic en un botón.
     $(".list").click(function() {
@@ -138,21 +143,19 @@ $(document).ready(function() {
     });
     
     // ANIMACIONES PARA EL POPUP DE INICIO DE SESIÓN
-    
     $(".login-btn").click(function() {
         $(".login-form").fadeIn(400);
         $(".user-input").val("");
-        $(".password-input").val("");
+        $("#password-input").val("");
     });
     
     $(".login-quit").click(function() {
         $(".login-form").fadeOut(400);
         $(".user-input").val("");
-        $(".password-input").val("");
+        $("#password-input").val("");
     });
     
     // ANIMACIONES PARA EL POPUP DE REGISTRO
-    
     $(".signup-btn").click(function() {
         $(".register-form").fadeIn(400);
         $("#register-name").val("");
@@ -169,5 +172,13 @@ $(document).ready(function() {
         $("#register-password").val("");
         $("#register-confirm-password").val("");
     });
+    
+    // ANIMACIONES PARA EL POPUP DE AÑADIR FUENTE
+    $(".add").click(function() {
+        $(".sourcename").val("");
+        $(".sourcelink").val("");
+    });
+    
+    
     
 });

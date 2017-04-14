@@ -323,7 +323,7 @@ header.homeheader {
 .formbox {
     width: 50%; /*500px*/
     min-width: 300px;
-    height: 155px;
+    height: 175px;
     background-color: white;
     position: absolute;
     top: 50%;
@@ -372,6 +372,21 @@ header.homeheader {
     box-sizing: border-box;
 
 }
+
+.sourcename {
+    min-width: 200px;
+    width: 100%; /*93.5%*/
+    height: 30px;
+    border: 1px solid #009688;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 1px rgba(0,0,0,.20) inset;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+
+}
+
 
 .selector-container {
     position: relative;
@@ -544,10 +559,10 @@ header.homeheader {
 }
 
 .list-delete-container {
-/*    height: 400px;*/
     display: flex;
-    justify-content: center;
     padding-bottom: 30px;
+    flex-direction: column;
+    align-items: center;
     
 }
 
@@ -566,6 +581,26 @@ header.homeheader {
     padding: 7px 7px 7px 15px;
     text-align: left;
     vertical-align: middle;
+}
+
+.delete-button {
+    font-family: 'Roboto', sans-serif;
+    margin-top: 10px;
+    background-color: #b71c1c;
+    display: inline;
+    padding: 3px 16px 3px 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 2px;
+    box-shadow: 0 6px 10px rgba(0,0,0,.50);
+    
+}
+
+.delete-button:hover {
+    box-shadow: 0 8px 15px rgba(0,0,0,.50);
+    cursor: pointer;
+    transition: box-shadow 150ms ease-in-out;
+    
 }
 
 .table-delete-list tr:not(:first-child) {cursor: pointer;}
@@ -679,7 +714,7 @@ header.homeheader {
     width: 100%;
     height: 100%;
     background-color: rgba(255,255,255,.50);
-    z-index: 9999;
+    z-index: 9998;
     
 }
 
@@ -741,7 +776,7 @@ header.homeheader {
     
 }
 
-.password-input {
+#password-input {
     width: 100%;
     height: 30px;
     padding-left: 5px;
@@ -883,6 +918,70 @@ header.homeheader {
     box-shadow: 0 6px 13px rgba(0,0,0,.50);
     transition: box-shadow 150ms ease-in-out;
     
+}
+
+/*ERROR POPUPS*/
+
+.login-error-ntf {
+    position: fixed;
+    width: 20%;
+    height: 20%;
+    background-color: #263238;
+    z-index: 9999;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.50);
+    min-width: 180px;
+    min-height: 140px;
+    
+}
+
+.auth-error-ntf {
+    position: fixed;
+    width: 20%;
+    height: 10%;
+    background-color: #263238;
+    z-index: 9999;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.50);
+    min-width: 180px;
+    min-height: 100px;
+    
+}
+
+.auth-error-ntf p {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    margin-left: 15px;
+    font-size: 14px;
+}
+
+.addsource-error-ntf {
+    position: fixed;
+    width: 20%;
+    height: 10%;
+    background-color: #263238;
+    z-index: 9999;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.50);
+    min-width: 180px;
+    min-height: 100px;
+    
+}
+
+.addsource-error-ntf p {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    margin-left: 15px;
+    font-size: 14px;
 }
 
 .error-ntf {

@@ -43,3 +43,37 @@ $.feed.cargaNoticia = function(urlCanal, caja, tipo) {
         }
     });
 };
+
+// Función para representar los datos de Firebase en la lista
+function appendData(name, date, type) {
+    var tr = $("<tr></tr>");
+    
+    var tdName = $("<td>" + name + "</td>");
+    var tdType = $("<td>" + type + "</td>");
+    var tdDate = $("<td>" + date + "</td>");
+    
+    tr.append(tdName);
+    tr.append(tdType);
+    tr.append(tdDate);
+    
+    $(".table-list").append(tr);
+    
+}
+
+// Función para representar los datos de Firebase en la lista de borrar
+function appendDataDelete(name, date, type, key) {
+    var tr = $("<tr></tr>");
+    
+    var tdName = $("<td>" + name + "</td>");
+    var tdType = $("<td>" + type + "</td>");
+    var tdDate = $("<td>" + date + "</td>");
+    var tdCheckBox = $('<td><input type="checkbox" class=" ' + key + '"></td>');
+    
+    tr.append(tdName);
+    tr.append(tdType);
+    tr.append(tdDate);
+    tr.append(tdCheckBox);
+    
+    $(".table-delete-list").append(tr);
+    
+}
