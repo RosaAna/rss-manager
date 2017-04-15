@@ -11,8 +11,10 @@ $(document).ready(function() {
         messagingSenderId: "14631434929"
     };
 
+    // Iniciamos los servicios de Firebase y almacenamos auth y database en variables
     firebase.initializeApp(config);
     var auth = firebase.auth();
+    var database = firebase.database();
     
     auth.onAuthStateChanged(function(user) {
         if(user) { // Usuario conectado
@@ -20,8 +22,6 @@ $(document).ready(function() {
             $(".logout-button").fadeIn(400);
             $(".login-form").fadeOut(400);
             console.log("Conectado");
-            
-            var database = firebase.database();
             
             var ref = database.ref('/public/');
             
@@ -92,13 +92,16 @@ $(document).ready(function() {
                 
             });
             
+            // Código para eliminar fuentes de la lista
             $(".delete-button").click(function() {
                 var query = database.ref("/" + localStorage.getItem("childKey"));
                 query.once('value').then(function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
                         if(childSnapshot.val() != undefined) {
-                            // TODO HACER ALGORITMO PARA BORRAR FUENTES
-                            
+                            if($("." + childSnapshot.key).prop("checked", true)) {
+                                var child = childSnapshot.key;
+                                console.log(child);
+                            }
                         }
                     })
                 })
