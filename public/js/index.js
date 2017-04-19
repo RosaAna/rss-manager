@@ -1,6 +1,3 @@
-/*jslint browser:true, devel:true, white:true, vars:true*/
-/*global $:false, intel:false*/
-
 $.feed = {};
 
 // Carga el canal con id "caja"
@@ -45,16 +42,18 @@ $.feed.cargaNoticia = function(urlCanal, caja, tipo) {
 };
 
 // Función para representar los datos de Firebase en la lista
-function appendData(name, date, type) {
-    var tr = $("<tr></tr>");
+function appendData(name, date, type, key) {
+    var tr = $('<tr class="' + key + '"></tr>');
     
     var tdName = $("<td>" + name + "</td>");
     var tdType = $("<td>" + type + "</td>");
     var tdDate = $("<td>" + date + "</td>");
+    var tdFav = $('<td class="td-fav"><i class="fa fa-star-o fav-off" aria-hidden="true"></td>')
     
     tr.append(tdName);
     tr.append(tdType);
     tr.append(tdDate);
+    tr.append(tdFav);
     
     $(".table-list").append(tr);
     
@@ -62,7 +61,7 @@ function appendData(name, date, type) {
 
 // Función para representar los datos de Firebase en la lista de borrar
 function appendDataDelete(name, date, type, key) {
-    var tr = $("<tr></tr>");
+    var tr = $('<tr class="' + key + '-del"></tr>');
     
     var tdName = $("<td>" + name + "</td>");
     var tdType = $("<td>" + type + "</td>");

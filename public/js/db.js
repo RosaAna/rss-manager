@@ -1,5 +1,3 @@
-// DOCUMENTO PARA EL CÓDIGO SOBRE FIREBASE
-
 // Iniciamos Firebase
 $(document).ready(function() {
     var config = {
@@ -31,40 +29,10 @@ $(document).ready(function() {
                 snapshot.forEach(function(childSnapshot) {
                     var data = childSnapshot.val();
                     
-                    appendData(data.name, data.date, data.type);
+                    appendData(data.name, data.date, data.type, childSnapshot.key);
                     
                 });  
-            });
-            
-            // Cargamos toda la base de datos de RSS añadidos por el usuario
-            
-            var addSourceQuery = database.ref("/" + localStorage.getItem("childKey"));
-            addSourceQuery.once('value').then(function(snapshot) {                
-                snapshot.forEach(function(childSnapshot) {
-                    var data = childSnapshot.val();
-                    
-                    if(data.name != undefined && data.date != undefined && data.type != undefined) {
-                        appendData(data.name, data.date, data.type);
-                    } else {
-                        return false;
-                    }
-                    
-                });
-            });
-            
-            // Cargamos la base de datos de RSS añadidos por el usuario en la tabla para borrar
-            var deleteSourceQuery = database.ref("/" + localStorage.getItem("childKey"));
-            deleteSourceQuery.once('value').then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var data = childSnapshot.val();
-        
-                    if(data.name != undefined && data.date != undefined && data.type != undefined) {
-                        appendDataDelete(data.name, data.date, data.type, childSnapshot.key);
-                    } else {
-                        return false;
-                    }
-                });
-            });
+            });            
             
             // Buscamos en los registros el email correspondiente al usuario
             var emailRef = database.ref('/');
@@ -85,6 +53,9 @@ $(document).ready(function() {
                 });
             });
             
+            // Leemos RSS del usuario
+            readUserSources();
+            
             $(".submit-button").click(function() {
                 if(checkSourceData()) {
                     addSourceLink();
@@ -98,14 +69,14 @@ $(document).ready(function() {
                 query.once('value').then(function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
                         if(childSnapshot.val() != undefined) {
-                            if($("." + childSnapshot.key).prop("checked", true)) {
-                                var child = childSnapshot.key;
-                                console.log(child);
+                            if($("." + childSnapshot.key).is(":checked")) {
+                                query.child(childSnapshot.key).remove();
+                                $("." + childSnapshot.key + "-del").fadeOut(400);
+                                $("." + childSnapshot.key).remove();
                             }
                         }
-                    })
-                })
-                
+                    });
+                });
             });
 
         } else { // Usuario desconectado
@@ -163,7 +134,6 @@ $(document).ready(function() {
     - Hacer boton de recuperar contraseña
     - Hacer menu de configuración para cambiar correo y contraseña
     - etc...*/
-
     
 });
 
@@ -352,5 +322,46 @@ function addSourceLink() {
         "date": formatDate,
     });
     
+    var addQuery = firebase.database().ref("/" + key);
+    addQuery.on("child_added", function(snapshot) {
+        var addKey = snapshot.key;
+        var deleteKey = snapshot.key + "-del";
+        appendData(name, formatDate, type, newKey);
+        appendDataDelete(name, formatDate, type, deleteKey);
+    });
+    
     $(".addsource").fadeOut(400);
+    
+}
+
+function readUserSources() {
+    // Cargamos toda la base de datos de RSS añadidos por el usuario
+    var addSourceQuery = firebase.database().ref("/" + localStorage.getItem("childKey"));
+    addSourceQuery.once('value').then(function(snapshot) {                
+        snapshot.forEach(function(childSnapshot) {
+            var data = childSnapshot.val();
+
+            if(data.name != undefined && data.date != undefined && data.type != undefined) {
+                appendData(data.name, data.date, data.type, childSnapshot.key);
+            } else {
+                return false;
+            }
+
+        });
+    });
+    
+    // Cargamos toda la base de datos de RSS añadidos por el usuario en la tabla para borrar
+    var deleteSourceQuery = firebase.database().ref("/" + localStorage.getItem("childKey"));
+    deleteSourceQuery.once('value').then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var data = childSnapshot.val();
+
+            if(data.name != undefined && data.date != undefined && data.type != undefined) {
+                appendDataDelete(data.name, data.date, data.type, childSnapshot.key);
+            } else {
+                return false;
+            }
+        });
+    });
+    
 }

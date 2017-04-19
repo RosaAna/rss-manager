@@ -1,10 +1,10 @@
-/*jslint browser: true*/
-/*global $, jQuery, alert*/
-
 $(document).ready(function() {
     
-    // Objeto que detecta si la página está siendo cargada desde un dispositivo móvil.    
-    var isMobile = {
+    // Objeto que detecta si la página está siendo cargada desde un dispositivo móvil.   
+    
+    // SI ESTE OBJETO NO SE USA ELIMINAR ENTERO, (POR AHORA NO USADO NUNCA)
+    
+    /*var isMobile = {
         Android: function() {
             return navigator.userAgent.match(/Android/i);
         },
@@ -23,20 +23,10 @@ $(document).ready(function() {
         any: function() {
             return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
         }
-    };
+    };*/
     
     // Ocultamos todos los elementos que no sean la página principal de la aplicación
-    $(".listpage").hide();
-    $(".addsource").hide();
-    $(".listpage-delete").hide();
-    $(".login-form").hide();
-    $(".register-form").hide();
-    $(".error-ntf").hide();
-    $(".login-error-ntf").hide();
-    $(".btn-container").hide();
-    $(".logout-button").hide();
-    $(".auth-error-ntf").hide();
-    $(".addsource-error-ntf").hide();
+    hideElements();
     
     // Acción que se realiza para animar los elementos cuando hacemos clic en un botón.
     $(".list").click(function() {
@@ -80,19 +70,15 @@ $(document).ready(function() {
         $(".addsource").fadeOut(400);
     });
     
-    // EFECTOS BOTONES PARA EL POPUP
+    // EFECTOS BOTONES PARA ADDSOURCE
     $(".rss").click(function() {
         $(".atom-clicked").removeClass("atom-clicked").addClass("atom");
-        $(".rss").removeClass("rss").addClass("rss-clicked");
-        
-        //AÑADIR VALOR EN EL INDEX.JS PARA CUANDO SE HAGA CLICK EN ESTE BOTÓN
+        $(".rss").removeClass("rss").addClass("rss-clicked");        
     });
     
     $(".atom").click(function() {
         $(".rss-clicked").removeClass("rss-clicked").addClass("rss");
-        $(".atom").removeClass("atom").addClass("atom-clicked");
-        
-        //AÑADIR VALOR EN EL INDEX.JS PARA CUANDO SE HAGA CLICK EN ESTE BOTÓN
+        $(".atom").removeClass("atom").addClass("atom-clicked");        
     });
     
     $(".submit-button").hover(function() {
@@ -128,6 +114,40 @@ $(document).ready(function() {
         }, 400);
         
         $(".listpage-delete").fadeOut(400, function() {
+            $(".flex-icons").fadeIn(400);
+            
+        });
+        
+    });
+    
+    // EFECTO PARA LA LISTA DE FAVORITOS
+    $(".favourites").click(function() {
+        $("html, body").animate({
+            scrollTop: 0,
+        }, 600);
+        
+        $(".flex-icons").fadeOut(400, function() {
+            $(".listpage-fav").fadeIn(400);
+            
+            $(".listheader").animate({
+                height: "50px",
+            }, 400);
+            
+        });
+
+    });
+    
+    // Efecto contrario para volver a la página principal
+    $(".backarrow-fav").click(function() {    
+        $("html, body").animate({
+            scrollTop: 0,
+        }, 600);
+        
+        $(".listheader").animate({
+            height: "0px",
+        }, 400);
+        
+        $(".listpage-fav").fadeOut(400, function() {
             $(".flex-icons").fadeIn(400);
             
         });
@@ -179,6 +199,20 @@ $(document).ready(function() {
         $(".sourcelink").val("");
     });
     
-    
-    
 });
+
+// Función que oculta todos los elementos que no se tienen que ver en la página
+function hideElements() {
+    $(".listpage").hide();
+    $(".addsource").hide();
+    $(".listpage-delete").hide();
+    $(".login-form").hide();
+    $(".register-form").hide();
+    $(".error-ntf").hide();
+    $(".login-error-ntf").hide();
+    $(".btn-container").hide();
+    $(".logout-button").hide();
+    $(".auth-error-ntf").hide();
+    $(".addsource-error-ntf").hide();
+    $(".listpage-fav").hide();
+}
