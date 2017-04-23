@@ -21,8 +21,6 @@ $(document).ready(function() {
             $(".login-form").fadeOut(400);
             console.log("Conectado");
             
-            var ref = database.ref('/public/');
-            
             // Cargamos toda la base de datos de RSS públicos
             var query = database.ref('/public/');
             query.once('value').then(function(snapshot) {
@@ -32,7 +30,7 @@ $(document).ready(function() {
                     appendData(data.name, data.date, data.type, childSnapshot.key);
                     
                 });  
-            });            
+            });
             
             // Buscamos en los registros el email correspondiente al usuario
             var emailRef = database.ref('/');
@@ -44,6 +42,25 @@ $(document).ready(function() {
                     if(userEmail == user.email) {
                         localStorage.removeItem("childKey");
                         localStorage.childKey = childSnapshot.key;
+                        
+                        return true;
+                        
+                    } else {
+                        console.log("Tu email no existe en la base de datos.");
+                    }
+                });
+            });
+            
+            // Buscamos en los registros de favoritos el email correspondiente al usuario
+            var favRef = database.ref('/favourites/');
+            favRef.once('value').then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var favData = childSnapshot.val();
+                    var userEmail = favData.email;
+                    
+                    if(userEmail == user.email) {
+                        localStorage.removeItem("childKeyFav");
+                        localStorage.childKeyFav = childSnapshot.key;
                         
                         return true;
                         
@@ -78,7 +95,10 @@ $(document).ready(function() {
                     });
                 });
             });
-
+            
+            /* HAY UN ERROR CON LOS SELECTORES DE LAS ESTRELLAS, NO SE DETECTAN Y DEBERÍAN CAMBIAR DE CLASE,
+               SE DETECTAN TODOS LOS ELEMENTOS MENOS ESTOS, INVESTIGAR ORDEN DE RENDERIZADO O PROBLEMAS DE OTRO TIPO */
+            
         } else { // Usuario desconectado
             $(".btn-container").fadeIn(400);
             $(".logout-button").fadeOut(400);
@@ -128,13 +148,6 @@ $(document).ready(function() {
             });
         }  
     });
-    
-    /*TODO
-    
-    - Hacer boton de recuperar contraseña
-    - Hacer menu de configuración para cambiar correo y contraseña
-    - etc...*/
-    
 });
 
 function wrongPassPopup() {
@@ -262,6 +275,13 @@ function writeUserData(email) {
     };
     
     path.push(userData);
+    
+    var favPath = firebase.database().ref("/favourites/");
+    var favData = {
+        'email': email,
+    };
+    
+    favPath.push(favData);
 }
 
 function checkSourceData() {
@@ -320,13 +340,14 @@ function addSourceLink() {
         "url": url,
         "type": type.toUpperCase(),
         "date": formatDate,
+        "isFav": false,
     });
     
     var addQuery = firebase.database().ref("/" + key);
-    addQuery.on("child_added", function(snapshot) {
+    addQuery.on("value", function(snapshot) {
         var addKey = snapshot.key;
         var deleteKey = snapshot.key + "-del";
-        appendData(name, formatDate, type, newKey);
+        appendData(name, formatDate, type, addKey);
         appendDataDelete(name, formatDate, type, deleteKey);
     });
     
@@ -342,7 +363,12 @@ function readUserSources() {
             var data = childSnapshot.val();
 
             if(data.name != undefined && data.date != undefined && data.type != undefined) {
-                appendData(data.name, data.date, data.type, childSnapshot.key);
+                if(data.isFav) {
+                    appendData(data.name, data.date, data.type, childSnapshot.key);
+                    appendDataToFavourites(data.name, data.date, data.type, childSnapshot.key);
+                } else {
+                    appendData(data.name, data.date, data.type, childSnapshot.key);
+                }
             } else {
                 return false;
             }

@@ -76,3 +76,21 @@ function appendDataDelete(name, date, type, key) {
     $(".table-delete-list").append(tr);
     
 }
+
+// Función para representar los datos de Firebase en la lista de favoritos
+function appendDataToFavourites(name, date, type, key) {
+    var tr = $('<tr class="' + key + '-fav"></tr>');
+    
+    var tdName = $("<td>" + name + "</td>");
+    var tdType = $("<td>" + type + "</td>");
+    var tdDate = $("<td>" + date + "</td>");
+    var tdFav = $('<td class="td-fav-list"><i class="fa fa-star fav-on" aria-hidden="true"></td>')
+    
+    tr.append(tdName);
+    tr.append(tdType);
+    tr.append(tdDate);
+    tr.append(tdFav);
+    
+    $(".table-fav").append(tr);
+    
+}
