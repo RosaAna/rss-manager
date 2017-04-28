@@ -1,32 +1,10 @@
+// Creamos el objeto para envolver las funciones
+$.animWrapper = {};
+
 $(document).ready(function() {
     
-    // Objeto que detecta si la página está siendo cargada desde un dispositivo móvil.   
-    
-    // SI ESTE OBJETO NO SE USA ELIMINAR ENTERO, (POR AHORA NO USADO NUNCA)
-    
-    /*var isMobile = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };*/
-    
     // Ocultamos todos los elementos que no sean la página principal de la aplicación
-    hideElements();
+    $.animWrapper.hideElements();
     
     // Acción que se realiza para animar los elementos cuando hacemos clic en un botón.
     $(".list").click(function() {
@@ -198,11 +176,11 @@ $(document).ready(function() {
         $(".sourcename").val("");
         $(".sourcelink").val("");
     });
-        
+
 });
 
 // Función que oculta todos los elementos que no se tienen que ver en la página
-function hideElements() {
+$.animWrapper.hideElements = function() {
     $(".listpage").hide();
     $(".addsource").hide();
     $(".listpage-delete").hide();
@@ -215,4 +193,62 @@ function hideElements() {
     $(".auth-error-ntf").hide();
     $(".addsource-error-ntf").hide();
     $(".listpage-fav").hide();
+    $(".newspage").hide();
+    $(".news-error-ntf").hide();
+}
+
+$.animWrapper.newsSlideIn = function(cajaEntrada, cajaSalida, title) {
+    $("html, body").animate({
+        scrollTop: 0,
+    }, 600);
+
+    $(cajaSalida).fadeOut(400, function() {
+        $(cajaEntrada).fadeIn(400);
+
+        $(".newsheader").animate({
+            height: "50px",
+        }, 400);
+        
+        $(".newsheader-title").empty();
+        $(".newsheader-title").append(title);
+
+    });
+}
+
+$.animWrapper.newsSlideOut = function(cajaEntrada, cajaSalida) {
+    $("html, body").animate({
+        scrollTop: 0,
+    }, 600);
+
+    $(".newsheader").animate({
+        height: "0px",
+    }, 400);
+
+    $(cajaSalida).fadeOut(400, function() {
+        $(cajaEntrada).fadeIn(400);
+
+    });
+    
+    $(".news-container").empty();
+    
+}
+
+$.animWrapper.disableElements = function() {
+    $(".list, .add, .delete, .favourites").css({
+        "cursor": "wait",
+        "pointer-events": "none",
+    });
+    
+    $(".list, .add, .delete, .favourites").fadeTo('slow', 0.6);
+    
+}
+
+$.animWrapper.enableElements = function() {
+    $(".list, .add, .delete, .favourites").css({
+        "cursor": "pointer",
+        "pointer-events": "all",
+    });
+    
+    $(".list, .add, .delete, .favourites").fadeTo('slow', 1);
+    
 }

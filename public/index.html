@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 
+<!--PROYECTO CREADO POR JOSE MARÍA RUANO PARA LA CLASE DE LMSGI
+    FECHA PRIMERA VERSIÓN: 26-04-2017-->
+
 <html>
 
     <head>
@@ -12,8 +15,8 @@
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         
         <script src="js/jquery-3.1.1.js" type="text/javascript"></script>
-        <script src="js/index.js" type="text/javascript"></script>
         <script src="js/animations.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
         <script src="js/db.js" type="text/javascript"></script>
         <script src="https://use.fontawesome.com/fabec1b65f.js"></script>
         
@@ -38,12 +41,8 @@
                     <div class="atom-selector atom">ATOM</div>
                     <div class="submit-button">Aceptar<i class="fa fa-check-circle-o" aria-hidden="true"></i></div>
                 </div>
-                
-                <!--TODO
-                
-                - ESTABLECER VALUES PARA REGISTRAR LA OPCIÓN-->
             
-                </div>
+            </div>
             
         </div>
         
@@ -74,6 +73,14 @@
             <h3 class="error-title">Error inicio sesión</h3>
             
             <p>Usuario/Contraseña incorrectos.</p>
+            
+        </div>
+        
+        <div class="news-error-ntf">
+        
+            <h3 class="error-title">Error al cargar fuente</h3>
+            
+            <p>Compruebe el enlace de la fuente.</p>
             
         </div>
         
@@ -181,6 +188,16 @@
             
         </div>
         
+        <div class="newspage">
+            
+            <header class="newsheader">
+                <i class="material-icons aux-backarrow news-backarrow" aria-hidden="true">arrow_back</i>
+                <h1 class="newsheader-title"></h1>
+            </header>
+            
+            <div class="news-container"></div>
+            
+        </div>
         
         <div class="listpage">
             
@@ -189,16 +206,7 @@
                 <h1 class="listheader-title">Lista de Fuentes</h1>
             </header>
             
-            <div class="list-container">
-            
-                <table class="table-list">
-                    <th>Fuente</th>
-                    <th>Tipo</th>
-                    <th>Añadido en</th>
-                    <th><i class="fa fa-star fav-header" aria-hidden="true"></i></th>
-                </table>
-            
-            </div>
+            <div class="list-container"></div>
             
         </div>
         
@@ -209,16 +217,7 @@
                 <h1 class="listheader-title">Lista de Favoritos</h1>
             </header>
             
-            <div class="list-container">
-            
-                <table class="table-fav">
-                    <th>Fuente</th>
-                    <th>Tipo</th>
-                    <th>Añadido en</th>
-                    <th><i class="fa fa-star fav-header" aria-hidden="true"></i></th>
-                </table>
-            
-            </div>
+            <div class="list-container-fav"></div>
             
         </div>
         
@@ -229,18 +228,7 @@
                 <h1 class="listheader-delete-title">Borrar Fuente</h1>
             </header>
             
-            <div class="list-delete-container">
-            
-                <table class="table-delete-list">
-                    <th>Fuente</th>
-                    <th>Tipo</th>
-                    <th>Añadido en</th>
-                    <th>Borrar</th>
-                </table>
-                
-                <div class="delete-button">Borrar</div>
-                
-            </div>
+            <div class="list-delete-container"></div>
         </div>
             
     </body>

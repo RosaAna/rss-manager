@@ -8,7 +8,9 @@ $(document).ready(function() {
         storageBucket: "rssmanager-46f51.appspot.com",
         messagingSenderId: "14631434929"
     };
-
+    
+    var authLock = false;
+    
     // Iniciamos los servicios de Firebase y almacenamos auth y database en variables
     firebase.initializeApp(config);
     var auth = firebase.auth();
@@ -16,93 +18,157 @@ $(document).ready(function() {
     
     auth.onAuthStateChanged(function(user) {
         if(user) { // Usuario conectado
-            $(".btn-container").fadeOut(400);
-            $(".logout-button").fadeIn(400);
-            $(".login-form").fadeOut(400);
-            console.log("Conectado");
-            
-            // Cargamos toda la base de datos de RSS públicos
-            var query = database.ref('/public/');
-            query.once('value').then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var data = childSnapshot.val();
-                    
-                    appendData(data.name, data.date, data.type, childSnapshot.key);
-                    
-                });  
-            });
-            
-            // Buscamos en los registros el email correspondiente al usuario
-            var emailRef = database.ref('/');
-            emailRef.once('value').then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var userData = childSnapshot.val();
-                    var userEmail = userData.email;
-                    
-                    if(userEmail == user.email) {
-                        localStorage.removeItem("childKey");
-                        localStorage.childKey = childSnapshot.key;
-                        
-                        return true;
-                        
-                    } else {
-                        console.log("Tu email no existe en la base de datos.");
-                    }
-                });
-            });
-            
-            // Buscamos en los registros de favoritos el email correspondiente al usuario
-            var favRef = database.ref('/favourites/');
-            favRef.once('value').then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    var favData = childSnapshot.val();
-                    var userEmail = favData.email;
-                    
-                    if(userEmail == user.email) {
-                        localStorage.removeItem("childKeyFav");
-                        localStorage.childKeyFav = childSnapshot.key;
-                        
-                        return true;
-                        
-                    } else {
-                        console.log("Tu email no existe en la base de datos.");
-                    }
-                });
-            });
-            
-            // Leemos RSS del usuario
-            readUserSources();
-            
-            $(".submit-button").click(function() {
-                if(checkSourceData()) {
-                    addSourceLink();
-                }
+            if(authLock == false) {
+                $(".btn-container").fadeOut(400);
+                $(".logout-button").fadeIn(400);
+                $(".login-form").fadeOut(400);
+                $.animWrapper.enableElements();
                 
-            });
-            
-            // Código para eliminar fuentes de la lista
-            $(".delete-button").click(function() {
-                var query = database.ref("/" + localStorage.getItem("childKey"));
-                query.once('value').then(function(snapshot) {
+                appendTable("table-list", ".list-container");
+                appendTable("table-fav", ".list-container-fav");
+                appendTableDelete();
+                
+                // Buscamos en los registros el email correspondiente al usuario
+                var emailRef = database.ref('/');
+                emailRef.once('value').then(function(snapshot) {
                     snapshot.forEach(function(childSnapshot) {
-                        if(childSnapshot.val() != undefined) {
-                            if($("." + childSnapshot.key).is(":checked")) {
-                                query.child(childSnapshot.key).remove();
-                                $("." + childSnapshot.key + "-del").fadeOut(400);
-                                $("." + childSnapshot.key).remove();
-                            }
+                        var userData = childSnapshot.val();
+                        var userEmail = userData.email;
+
+                        if(userEmail == user.email) {
+                            localStorage.removeItem("childKey");
+                            localStorage.childKey = childSnapshot.key;
+
+                            return true;
+
+                        } else {
+                            console.log("Tu email no existe en la base de datos.");
                         }
                     });
                 });
-            });
-            
-            /* HAY UN ERROR CON LOS SELECTORES DE LAS ESTRELLAS, NO SE DETECTAN Y DEBERÍAN CAMBIAR DE CLASE,
-               SE DETECTAN TODOS LOS ELEMENTOS MENOS ESTOS, INVESTIGAR ORDEN DE RENDERIZADO O PROBLEMAS DE OTRO TIPO */
+
+                importPublicSources();
+
+                // Leemos RSS del usuario
+                readUserSources();
+
+                $(".submit-button").click(function() {
+                    if(checkSourceData()) {
+                        addSourceLink();
+                    }
+
+                });
+
+                // Código para eliminar fuentes de la lista
+                $(".delete-button").click(function() {
+                    var query = database.ref("/" + localStorage.getItem("childKey"));
+                    query.once('value').then(function(snapshot) {
+                        snapshot.forEach(function(childSnapshot) {
+                            if(childSnapshot.val() != undefined) {
+                                if($("." + childSnapshot.key).is(":checked")) {
+                                    query.child(childSnapshot.key).remove();
+                                    $("." + childSnapshot.key + "-del").fadeOut(400);
+                                    $("." + childSnapshot.key).remove();
+
+                                    if(childSnapshot.val().isFav) {
+                                        $("." + childSnapshot.key + "-fav").remove();
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+
+                // Código para añadir o quitar de favoritos al hacer click en la estrella
+                $(".table-list").on("click", ".td-fav", function() {
+                    var trKey = $(this).parent().prop('class');
+                    var ref = database.ref("/" + localStorage.getItem("childKey") + "/" + trKey);
+
+                    if($(this).children().hasClass("fa-star-o")) {
+                        ref.update({'isFav':true,});
+
+                        ref.once("value").then(function(snapshot) {
+                            var data = snapshot.val();
+                            appendDataToFavourites(data.name, data.date, data.type, data.key);
+
+                        });
+
+                        $(this).children().removeClass("fa-star-o").addClass("fa-star");
+
+                    } else if($(this).children().hasClass("fa-star")) {
+                        ref.update({'isFav': false,});
+                        $('.' + trKey + '-fav').fadeOut(400);
+
+                        $(this).children().removeClass("fa-star").addClass("fa-star-o");
+                    }
+
+                });
+
+                // Aplicamos un código similar al anterior para eliminar de favoritos directamente en la misma lista
+                $(".table-fav").on("click", ".td-fav-list", function() {
+                    var trKey = $(this).parent().prop('class');
+                    var finalKey = trKey.substr(0, trKey.length - 4);
+
+                    var ref = database.ref("/" + localStorage.getItem("childKey") + "/" + finalKey);
+                    ref.update({'isFav':false,});
+
+                    $(this).parent().fadeOut(400);
+                    $("." + finalKey).find(".fa-star").addClass("fa-star-o").removeClass("fa-star");
+
+                });
+                
+                var check = 0;
+                
+                // Código para abrir la noticia al hacer click en los td, no en el de favoritos
+                $(".table-list").on("click", ".td-name, .td-type, .td-date", function() {
+                    var trClass = $(this).parent().prop("class");
+                    var query = database.ref("/" + localStorage.getItem("childKey") + "/" + trClass);
+                    query.once("value").then(function(snapshot) {
+                        $.feed.cargaNoticia(snapshot.val().url, ".news-container", snapshot.val().type.toLowerCase());
+                        $.animWrapper.newsSlideIn(".newspage", ".listpage", snapshot.val().name);
+
+                    });
+                    check = 1;
+                    
+                });
+                
+                // Mismo código del anterior pero ahora para acceder desde la pantalla de favoritos
+                $(".table-fav").on("click", ".td-name, .td-type, .td-date", function() {
+                    var trClass = $(this).parent().prop("class");
+                    var newTrClass = trClass.substr(0, trClass.length - 4);
+                    var query = database.ref("/" + localStorage.getItem("childKey") + "/" + newTrClass);
+                    query.once("value").then(function(snapshot) {
+                        $.feed.cargaNoticia(snapshot.val().url, ".news-container", snapshot.val().type.toLowerCase());
+                        $.animWrapper.newsSlideIn(".newspage", ".listpage-fav", snapshot.val().name);
+
+                    });
+                    
+                    check = 2;
+                    
+                });
+                
+                // Código que detecta si estás en la página de favoritos o en la lista y actua en consecuencia
+                $(".news-backarrow").click(function() {
+                    if(check == 1) {
+                        $.animWrapper.newsSlideOut(".listpage", ".newspage");
+                    } else if(check == 2) {
+                        $.animWrapper.newsSlideOut(".listpage-fav", ".newspage");
+                    }
+                    
+                });
+
+                authLock = true;
+                
+            } else {
+                return true;
+            }
             
         } else { // Usuario desconectado
             $(".btn-container").fadeIn(400);
             $(".logout-button").fadeOut(400);
-            console.log("Desconectado");
+            cleanElements();
+            $.animWrapper.disableElements();
+            authLock = false;
             
         }
     });
@@ -179,7 +245,7 @@ function checkRegisterPass() {
     }  
 }
 
-function errorPopup() {
+function registerErrorPopup() {
     $(".error-ntf").fadeIn(400);
     setTimeout(function() {
         $(".error-ntf").fadeOut(400);
@@ -187,6 +253,7 @@ function errorPopup() {
     
 }
 
+// Función que muestra una notificación cuando haya un error al iniciar sesión
 function errorLoginPopup() {
     $(".login-error-ntf").fadeIn(400);
     setTimeout(function() {
@@ -205,7 +272,7 @@ function checkRegisterForm() {
     
     if(user.length < 5 || user.length > 15) {
         $("#register-name").css("background-color", "#ef5350");
-        errorPopup();
+        registerErrorPopup();
         check = false;
     } else {
         $("#register-name").css("background-color", "white");
@@ -213,7 +280,7 @@ function checkRegisterForm() {
     
     if((isEmail(email) === false) || email == "") {
         $("#register-email").css("background-color", "#ef5350");
-        errorPopup();
+        registerErrorPopup();
         check = false;
     } else {
         $("#register-email").css("background-color", "white");
@@ -221,7 +288,7 @@ function checkRegisterForm() {
     
     if(password.length < 5 || password.length > 15) {
         $("#register-password").css("background-color", "#ef5350");
-        errorPopup();
+        registerErrorPopup();
         check = false;
     } else {
         $("#register-password").css("background-color", "white");
@@ -230,7 +297,7 @@ function checkRegisterForm() {
     if(checkRegisterPass() == false) {
         $("#register-confirm-password").css("background-color", "#ef5350");
         $("#register-password").css("background-color", "#ef5350");
-        errorPopup();
+        registerErrorPopup();
         check = false;
     } else {
         $("#register-confirm-password").css("background-color", "white");
@@ -272,16 +339,11 @@ function writeUserData(email) {
     var path = firebase.database().ref('/');
     var userData = {
         'email': email,
+        'isImported': false,
     };
     
-    path.push(userData);
+    path.push(userData); 
     
-    var favPath = firebase.database().ref("/favourites/");
-    var favData = {
-        'email': email,
-    };
-    
-    favPath.push(favData);
 }
 
 function checkSourceData() {
@@ -334,23 +396,21 @@ function addSourceLink() {
     var date = new Date();
     
     var formatDate = date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
-    
-    firebase.database().ref("/" + key).push({
+
+    var newKey = firebase.database().ref("/" + key).push({
         "name": name,
         "url": url,
-        "type": type.toUpperCase(),
+        "type": type,
         "date": formatDate,
         "isFav": false,
-    });
+    }).key;
     
-    var addQuery = firebase.database().ref("/" + key);
-    addQuery.on("value", function(snapshot) {
-        var addKey = snapshot.key;
-        var deleteKey = snapshot.key + "-del";
-        appendData(name, formatDate, type, addKey);
-        appendDataDelete(name, formatDate, type, deleteKey);
-    });
+    var deleteKey = newKey + "-del";
     
+    var fav = "fa-star-o";
+    appendData(name, formatDate, type, newKey, fav);
+    appendDataDelete(name, formatDate, type, deleteKey);
+
     $(".addsource").fadeOut(400);
     
 }
@@ -364,10 +424,15 @@ function readUserSources() {
 
             if(data.name != undefined && data.date != undefined && data.type != undefined) {
                 if(data.isFav) {
-                    appendData(data.name, data.date, data.type, childSnapshot.key);
+                    var fav = "fa-star";
+                    
+                    appendData(data.name, data.date, data.type, childSnapshot.key, fav);
+                    appendDataDelete(data.name, data.date, data.type, childSnapshot.key);
                     appendDataToFavourites(data.name, data.date, data.type, childSnapshot.key);
                 } else {
-                    appendData(data.name, data.date, data.type, childSnapshot.key);
+                    var fav = "fa-star-o";
+                    appendData(data.name, data.date, data.type, childSnapshot.key, fav);
+                    appendDataDelete(data.name, data.date, data.type, childSnapshot.key);
                 }
             } else {
                 return false;
@@ -376,18 +441,34 @@ function readUserSources() {
         });
     });
     
-    // Cargamos toda la base de datos de RSS añadidos por el usuario en la tabla para borrar
-    var deleteSourceQuery = firebase.database().ref("/" + localStorage.getItem("childKey"));
-    deleteSourceQuery.once('value').then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            var data = childSnapshot.val();
+}
 
-            if(data.name != undefined && data.date != undefined && data.type != undefined) {
-                appendDataDelete(data.name, data.date, data.type, childSnapshot.key);
-            } else {
-                return false;
-            }
-        });
+// Función que importa los RSS públicos al perfil del usuario
+function importPublicSources() {
+    var ref = firebase.database().ref("/" + localStorage.getItem("childKey"));
+    ref.once("value").then(function(snapshot) {
+
+        if(snapshot.val().isImported !== true) {
+            var publicRef = firebase.database().ref("/public");
+            publicRef.once('value').then(function(publicSnapshot) {
+                publicSnapshot.forEach(function(childSnapshot) {
+                    var itemValue = childSnapshot.val();
+                    var importData = {
+                        'name': itemValue.name,
+                        'date': itemValue.date,
+                        'type': itemValue.type,
+                        'url': itemValue.url,
+                        'isFav': false,
+                    };
+
+                    ref.push(importData);
+
+                });
+            });
+        }
+
+        ref.update({'isImported': true,});
+
     });
     
 }
