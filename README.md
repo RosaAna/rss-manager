@@ -11,3 +11,4 @@ Created by Jose Ruano for the LMSGI course.
 
 - Minor layout bug when try to scroll to top.
 - Minor read bug when trying to read some Atom feeds.
+- Trouble with Date, doesnt show the current date correctly.
