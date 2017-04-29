@@ -394,8 +394,9 @@ function addSourceLink() {
     
     var key = localStorage.getItem("childKey");
     var date = new Date();
+    var month = date.getMonth() + 1;
     
-    var formatDate = date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear();
+    var formatDate = date.getDate() + '/' + month + '/' + date.getFullYear();
 
     var newKey = firebase.database().ref("/" + key).push({
         "name": name,
