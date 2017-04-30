@@ -41,14 +41,12 @@ $(document).ready(function() {
 
                             return true;
 
-                        } else {
-                            console.log("Tu email no existe en la base de datos.");
                         }
                     });
                 });
 
                 importPublicSources();
-
+                
                 // Leemos RSS del usuario
                 readUserSources();
 
@@ -395,7 +393,7 @@ function addSourceLink() {
     var key = localStorage.getItem("childKey");
     var date = new Date();
     var month = date.getMonth() + 1;
-    
+
     var formatDate = date.getDate() + '/' + month + '/' + date.getFullYear();
 
     var newKey = firebase.database().ref("/" + key).push({
@@ -405,15 +403,15 @@ function addSourceLink() {
         "date": formatDate,
         "isFav": false,
     }).key;
-    
+
     var deleteKey = newKey + "-del";
-    
+
     var fav = "fa-star-o";
     appendData(name, formatDate, type, newKey, fav);
     appendDataDelete(name, formatDate, type, deleteKey);
 
     $(".addsource").fadeOut(400);
-    
+
 }
 
 function readUserSources() {
